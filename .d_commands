@@ -1,0 +1,57 @@
+###################################
+###            Setup            ###
+###################################
+BASE_DIR=$HOME/docker
+DEFAULT_ROOT_PWD=mypassword
+
+function d_databases_setup_volumes_dirs() {
+    mkdir -p $BASE_DIR/postgres
+    mkdir -p $BASE_DIR/mysql5.7
+    mkdir -p $BASE_DIR/mongo
+}
+
+
+###################################
+###         PostgreSQL          ###
+###################################
+
+function d_psql_run() {
+    docker run --rm --name pg-docker -d \
+    -p 127.0.0.1:5432:5432 \
+    -v $BASE_DIR/postgres:/var/lib/postgresql/data \
+    -e POSTGRES_PASSWORD=$DEFAULT_ROOT_PWD \
+    postgres
+}
+
+function d_psql() {
+    docker exec --tty --interactive pg-docker psql -h localhost -U postgres -d postgres
+}
+
+
+###################################
+###            MySQL            ###
+###################################
+
+function d_mysql_run() {
+    docker run --rm --name mysql5.7-docker -d \
+    -p 127.0.0.1:3306:3306 \
+    -v $BASE_DIR/mysql5.7:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=$DEFAULT_ROOT_PWD \
+    mysql:5.7
+}
+
+function d_mysql() {
+    docker exec --tty --interactive mysql5.7-docker mysql -uroot -p
+}
+
+
+###################################
+###           MongoDB           ###
+###################################
+
+function d_mongo_run() {
+    docker run --rm --name mongodb \
+    -p 27017:27017 \
+    -v $BASE_DIR/mongo:/data/db \
+    mongo
+}
