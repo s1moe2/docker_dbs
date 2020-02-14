@@ -50,7 +50,7 @@ function d_mysql() {
 ###################################
 
 function d_mongo_run() {
-    docker run --rm --name mongodb \
+    docker run --rm -d --name mongodb \
     -p 27017:27017 \
     -v $BASE_DIR/mongo:/data/db \
     mongo
