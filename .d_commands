@@ -55,3 +55,15 @@ function d_mongo_run() {
     -v $BASE_DIR/mongo:/data/db \
     mongo
 }
+
+###################################
+###           CouchDB           ###
+###################################
+
+function d_couch_run() {
+    docker run -d --name couch-docker \
+    -p 5984:5984 \
+    -v $BASE_DIR/couch:/opt/couchdb/data \
+    -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=$DEFAULT_ROOT_PWD \
+    couchdb
+}
