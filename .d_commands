@@ -9,6 +9,7 @@ function d_databases_setup_volumes_dirs() {
     mkdir -p $BASE_DIR/mysql5.7
     mkdir -p $BASE_DIR/mongo
     mkdir -p $BASE_DIR/couch
+    mkdir -p $BASE_DIR/prometheus
 }
 
 
@@ -67,4 +68,15 @@ function d_couch_run() {
     -v $BASE_DIR/couch:/opt/couchdb/data \
     -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=$DEFAULT_ROOT_PWD \
     couchdb
+}
+
+###################################
+###          Prometheus         ###
+###################################
+
+function d_prometheus_run() {
+    docker run -d --name prometheus-docker \
+    -p 9090:9090 \
+    -v $BASE_DIR/prometheus:/prometheus \
+    prom/prometheus
 }
